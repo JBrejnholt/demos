@@ -3,6 +3,10 @@ extraArgs:
   - --imagePullSecrets=regcred #TODO
   - --loggingFormat=text
 
+createSelfSignedCert: true
+cleanupController: false
+replicaCount: 3
+
 envVars:
   - name: AZURE_TENANT_ID
     valueFrom:

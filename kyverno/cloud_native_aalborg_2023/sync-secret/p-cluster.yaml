@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ccoe
+---
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: ccoe-postgres-cluster
+  namespace: ccoe
+spec:
+  databases:
+    aiadb: idflow-superuser
+  numberOfInstances: 2
+  postgresql:
+    parameters:
+      log_statement: all
+      max_connections: "10"
+      shared_buffers: 16MB
+    version: "14"
+  teamId: ccoe
+  users:
+    idflow-superuser:
+    - superuser
+  volume:
+    size: 1Gi
