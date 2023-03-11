@@ -4,7 +4,17 @@ extraArgs:
   - --loggingFormat=text
 
 createSelfSignedCert: true
-cleanupController: false
+cleanupController: 
+  rbac:
+    clusterRole:
+      extraResources:
+      - apiGroups:
+        - ''
+        resources:
+        - pods
+        verbs:
+        - list
+        - delete
 replicaCount: 3
 
 envVars:
