@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: busybox-max
+  name: busybox-max
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: busybox-max
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: busybox-max
+    spec:
+      containers:
+      - image: busybox:1.34
+        name: busybox-max
+status: {}

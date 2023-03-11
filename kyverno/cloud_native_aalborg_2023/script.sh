@@ -17,3 +17,12 @@ popd
 k create secret generic psql-backup-creds --from-literal=postgres-user=super-user --from-literal=password=abcdef12345 -n default
 k apply -f sync-secret/sync-postgres-cluster-secrets.yml
 k apply -f sync-secret/p-cluster.yaml
+
+pushd pdb-validation
+# pdb validation
+k apply -f verify-pdb-configuration.yaml
+k apply -f pdbs.yaml
+k apply -f bad-busybox-min.yaml
+k apply -f good-busybox-max.yaml
+
+popd
