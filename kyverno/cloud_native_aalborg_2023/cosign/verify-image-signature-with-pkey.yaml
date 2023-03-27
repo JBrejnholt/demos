@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-image-signature-key
+spec:
+  validationFailureAction: Enforce
+  background: true # not breaking existing deployments if any
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  rules:
+    - name: verify-image-signature-key
+      match:
+        any:
+        - resources:
+            kinds:
+              - Pod
+      verifyImages:
+      - imageReferences: 
+        - "ghcr.io/jbrejnholt/cosign-demo/*"
+        attestors:
+        - count: 1
+          entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEcUQUoDhCAYJyZ5Avz6C//MBemoH7
+                jmr61vi137joc2+iwRmb74zSapubM16PZkR3hlB1L5hcHyEIZDNwClbjDA==
+                -----END PUBLIC KEY----- 
+
