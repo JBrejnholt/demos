@@ -1,0 +1,26 @@
+shottr
+
+➜  demos git:(main) ✗ (rancher-desktop:default) brew list
+==> Formulae
+adr-tools		goenv			kyverno			popeye
+argocd-autopilot	gpatch			libev			postgresql@14
+aspcud			grep			libpq			python@3.10
+autoconf		helm			libtool			python@3.9
+automake		icu4c			linkerd			readline
+azure-cli		jq			lua			sqlite
+azwi			k9s			lz4			step
+bash-completion		kafka-gitops		m4			telnet
+ca-certificates		kind			md5sha1sum		terraform
+clingo			krb5			mpdecimal		tfenv
+coreutils		krew			ncurses			thefuck
+cosign			kube-ps1		ocaml			xz
+direnv			kubeconform		oniguruma		yq
+flux			kubectx			opam			z
+fzf			kubefwd			openssl@1.1		zsh
+gdbm			kubelogin		openssl@3
+gettext			kubernetes-cli		pcre
+gmp			kustomize		pkg-config
+
+==> Casks
+powershell	stats
+

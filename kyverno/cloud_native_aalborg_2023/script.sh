@@ -5,9 +5,9 @@ helm install -f values.yaml -f values-demo.yaml kyverno -n kyverno .
 
 # cosign
 cd /Users/jinhong_brejnholt/Git/GitHub/demos/kyverno/cloud_native_aalborg_2023/cosign
-k apply -f verify-image-signature-kv.yaml
-k run bad-busy --image=ghcr.io/jbrejnholt/cosign-demo/busybox-unsigned:1.34.1
-k run good-busy --image=ghcr.io/jbrejnholt/cosign-demo/busybox-signed:1.36.0 --command sleep 30
+k apply -f verify-image-kv.yaml
+k run bad-busy --image=jinbcr.azurecr.io/bad-busy:1.34.0
+k run good-busy --image=jinbcr.azurecr.io/good-busy:1.34.0 --command sleep 30
 
 # sync secret
 cd /Users/jinhong_brejnholt/Git/GitHub/demos/kyverno/cloud_native_aalborg_2023/postgres-operator

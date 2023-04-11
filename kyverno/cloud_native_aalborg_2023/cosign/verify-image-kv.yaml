@@ -4,7 +4,7 @@ metadata:
   name: verify-image-signature-key-kv
 spec:
   validationFailureAction: Enforce
-  background: true # not breaking existing deployments if any
+  background: false
   webhookTimeoutSeconds: 30
   failurePolicy: Fail
   rules:
@@ -16,10 +16,9 @@ spec:
               - Pod
       verifyImages:
       - imageReferences: 
-        - "ghcr.io/jbrejnholt/cosign-demo/*"
+        - "jinbcr.azurecr.io/*"
         attestors:
         - count: 1
           entries:
           - keys:
-              publicKeys: "azurekms://jinhong-cosign-poc-kv.vault.azure.net/cosignkey"
-
+              publicKeys: "azurekms://jinb-cosign-kv.vault.azure.net/cosignkey"
