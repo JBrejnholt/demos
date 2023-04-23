@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: busybox-min
+  name: busybox-min
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-min
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: busybox-min
+    spec:
+      containers:
+      - image: busybox:1.34
+        name: busybox-min
+status: {}

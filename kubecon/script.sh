@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd /Users/jinhong_brejnholt/Git/GitHub/demos/kyverno
 # k create ns kyverno
 k apply -f secret-demo.yaml

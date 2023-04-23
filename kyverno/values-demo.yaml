@@ -1,27 +1,13 @@
 extraArgs:
   - --autoUpdateWebhooks=true
-  - --imagePullSecrets=regcred #TODO
+  - --imagePullSecrets=regcred #Only for Cosign
   - --loggingFormat=text
-
-createSelfSignedCert: true
-cleanupController: 
-  rbac:
-    clusterRole:
-      extraResources:
-      - apiGroups:
-        - ''
-        resources:
-        - pods
-        verbs:
-        - list
-        - delete
-replicaCount: 3
 
 envVars:
   - name: AZURE_TENANT_ID
     valueFrom:
       secretKeyRef:
-        name: cosign-key-kv #TODO
+        name: cosign-key-kv #Only for Cosign
         key: tenantid
   - name: AZURE_CLIENT_ID
     valueFrom:
@@ -33,3 +19,18 @@ envVars:
       secretKeyRef:
         name: cosign-key-kv
         key: clientsecret
+
+createSelfSignedCert: true
+replicaCount: 3
+
+cleanupController: 
+  rbac:
+    clusterRole:
+      extraResources:
+      - apiGroups:
+        - ''
+        resources:
+        - pods
+        verbs:
+        - list
+        - delete

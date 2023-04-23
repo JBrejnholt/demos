@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /Users/jinhong_brejnholt/Git/GitHub/demos/kyverno
 # k create ns kyverno
 helm install -f values.yaml -f values-demo.yaml kyverno -n kyverno .
