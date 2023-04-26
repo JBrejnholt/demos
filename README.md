@@ -1,3 +1,3 @@
 # demos
 
-A collection of demos.
+A collection of Kyverno demos.
