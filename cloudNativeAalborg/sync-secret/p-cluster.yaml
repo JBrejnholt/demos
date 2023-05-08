@@ -23,4 +23,4 @@ spec:
     idflow-superuser:
     - superuser
   volume:
-    size: 1Gi
+    size: 256Mi
