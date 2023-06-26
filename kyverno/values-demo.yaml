@@ -1,5 +1,11 @@
 admissionController:
   replicas: 3
+  container:
+    extraArgs:
+      imagePullSecrets: "regcred" #TODO
+      loggingFormat: "text"
+      registryCredentialHelpers: "github"
+      webhookTimeout: 15
 
 cleanupController: 
   rbac:
