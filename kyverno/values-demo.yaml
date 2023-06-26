@@ -1,27 +1,5 @@
-extraArgs:
-  - --autoUpdateWebhooks=true
-  - --imagePullSecrets=regcred #Only for Cosign
-  - --loggingFormat=text
-
-envVars:
-  - name: AZURE_TENANT_ID
-    valueFrom:
-      secretKeyRef:
-        name: cosign-key-kv #Only for Cosign
-        key: tenantid
-  - name: AZURE_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: cosign-key-kv
-        key: clientid
-  - name: AZURE_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: cosign-key-kv
-        key: clientsecret
-
-createSelfSignedCert: true
-replicaCount: 3
+admissionController:
+  replicas: 3
 
 cleanupController: 
   rbac:

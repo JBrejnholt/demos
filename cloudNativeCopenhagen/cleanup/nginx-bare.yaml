@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-bare
+  name: nginx-bare
+spec:
+  containers:
+  - image: nginx:1.23.2-alpine
+    name: nginx-bare
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always

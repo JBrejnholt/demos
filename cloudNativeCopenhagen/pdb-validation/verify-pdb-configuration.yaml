@@ -1,0 +1,85 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-pdb-configuration
+  annotations:
+    policies.kyverno.io/title: Require correct PodDisruptionBudget configuration
+    policies.kyverno.io/subject: Deployment, PodDisruptionBudget, StatefulSet, ReplicationController,ReplicaSet
+spec:
+  validationFailureAction: Enforce
+  background: false
+  webhookTimeoutSeconds: 30
+  failurePolicy: Fail
+  rules:
+    - name: verify-pdb-minAvailable-configuration
+      match:
+        any:
+        - resources:
+            kinds:
+              - Deployment
+              - Deployment/scale
+              - StatefulSet
+              - ReplicationController
+              - ReplicaSet
+      preconditions:
+        all:
+          - key: "{{request.operation}}"
+            operator: In
+            value:
+            - CREATE
+            - UPDATE
+      context:
+        - name: pdb_count
+          apiCall:
+            urlPath: "/apis/policy/v1/namespaces/{{request.namespace}}/poddisruptionbudgets"
+            jmesPath: "items[?label_match(spec.selector.matchLabels, `{{request.object.spec.template.metadata.labels}}`)] | length(@)"
+        - name: pdb_minAvailable
+          apiCall:
+            urlPath: "/apis/policy/v1/namespaces/{{request.namespace}}/poddisruptionbudgets"
+            jmesPath: "items[?label_match(spec.selector.matchLabels, `{{request.object.spec.template.metadata.labels}}`)].spec.minAvailable"         
+      validate:
+        message: "The PodDisruptionBudget minAvailable configuration is incorrect. The min available is set to {{pdb_minAvailable[0]}}, and the target replicas is set to {{request.object.spec.replicas}}."
+        deny:
+          conditions:
+            all:
+              - key: "{{pdb_count}}"
+                operator: GreaterThanOrEquals
+                value: 1
+              - key: "{{request.object.spec.replicas}}"
+                operator: LessThanOrEquals
+                value: "{{pdb_minAvailable[0]}}"
+    - name: verify-pdb-maxUnavailable-configuration
+      match:
+        any:
+        - resources:
+            kinds:
+              - Deployment
+              - Deployment/scale
+              - StatefulSet
+              - ReplicationController
+              - ReplicaSet
+      preconditions:
+        all:
+          - key: "{{request.operation || 'BACKGROUND'}}"
+            operator: Equals
+            value: CREATE
+      context:
+        - name: pdb_count
+          apiCall:
+            urlPath: "/apis/policy/v1/namespaces/{{request.namespace}}/poddisruptionbudgets"
+            jmesPath: "items[?label_match(spec.selector.matchLabels, `{{request.object.spec.template.metadata.labels}}`)] | length(@)"
+        - name: pdb_maxUnavailable
+          apiCall:
+            urlPath: "/apis/policy/v1/namespaces/{{request.namespace}}/poddisruptionbudgets"
+            jmesPath: "items[?label_match(spec.selector.matchLabels, `{{request.object.spec.template.metadata.labels}}`)].spec.maxUnavailable"                
+      validate:
+        message: "The PodDisruptionBudget maxUnavailable configuration is incorrect. The max unavailable is set to {{pdb_maxUnavailable[0]}}, and the target replicas is set to {{request.object.spec.replicas}}."
+        deny:
+          conditions:
+            all:
+              - key: "{{pdb_count}}"
+                operator: GreaterThanOrEquals
+                value: 1
+              - key: "{{request.object.spec.replicas}}"
+                operator: LessThanOrEquals
+                value: "{{pdb_maxUnavailable[0]}}"

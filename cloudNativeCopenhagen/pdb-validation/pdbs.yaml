@@ -1,0 +1,19 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: busybox-pdb-min
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: busybox
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: busybox-pdb-max
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: busybox
