@@ -24,3 +24,9 @@ gmp			kustomize		pkg-config
 ==> Casks
 powershell	stats
 
+
+zsh kubectl
+
+kubectl completion zsh
+copy the output and put them into  ~/.zshrc
+add alias k=kubectl to ~/.zshrc and source it
